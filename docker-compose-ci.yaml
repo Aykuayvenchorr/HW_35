@@ -37,7 +37,7 @@ services:
         - POSTGRES_DB=$POSTGRES_DB
         - SECRET_KEY=$SECRET_KEY
     command: >
-      sh -c "python .\manage.py migrate"
+      sh -c "python manage.py migrate"
   db:
     image: postgres:15.1-alpine
     restart: on-failure

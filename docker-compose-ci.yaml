@@ -12,7 +12,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ashevchenko64/diploma:$GITHUB_REF_NAME-$GITHUB_RIN_ID
+    image: ashevchenko64/diploma:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     restart: always
     environment:
         - DEBUG=$DEBUG
@@ -29,7 +29,7 @@ services:
     ports:
       - "8000:8000"
   migrations:
-    image: ashevchenko64/diploma:$GITHUB_REF_NAME-$GITHUB_RIN_ID
+    image: ashevchenko64/diploma:$GITHUB_REF_NAME-$GITHUB_RUN_ID
     depends_on:
       db:
         condition: service_healthy

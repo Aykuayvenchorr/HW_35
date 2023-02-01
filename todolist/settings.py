@@ -16,7 +16,8 @@ from pathlib import Path
 # from dotenv import load_dotenv
 #
 # load_dotenv()
-from environ import environ
+# from environ import environ
+import environ
 
 env = environ.Env(
     # set casting, default value
@@ -63,7 +64,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
 ]
 
 MIDDLEWARE = [

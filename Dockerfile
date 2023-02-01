@@ -4,9 +4,12 @@ WORKDIR /app
 
 COPY requirements.txt .
 
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
 RUN pip install -r requirements.txt
 
-COPY todolist/ .
+COPY . .
 
 EXPOSE 8000
 

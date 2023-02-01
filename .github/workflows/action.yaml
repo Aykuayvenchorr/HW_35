@@ -45,7 +45,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           script: |
-            cd todolist
+            cd deploy
             echo ${{ secrets.PASSWORD }} | docker-compose down
             echo ${{ secrets.PASSWORD }} | docker-compose up -d
 

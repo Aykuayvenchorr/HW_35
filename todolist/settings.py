@@ -9,8 +9,8 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
 from pathlib import Path
+import os
 
 # import os
 # from dotenv import load_dotenv
@@ -34,7 +34,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(Path(BASE_DIR, '.env'))
 
 # False if not in os.environ because of casting above
-DEBUG = env('DEBUG', default=False)
+DEBUG = env('DEBUG')
 
 # Raises Django's ImproperlyConfigured
 # exception if SECRET_KEY not in os.environ

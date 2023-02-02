@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   frontend:
-    image: sermalenk/skypro-front:lesson-34
+    image: sermalenk/skypro-front:lesson-35
     restart: always
     depends_on:
       - api
@@ -12,7 +12,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: ashevchenko64/diploma:v0.1.0
+    image: ashevchenko64/diploma
     restart: always
     env_file:
       - .env
@@ -25,14 +25,14 @@ services:
       - "8000:8000"
   migrations:
     build: .
-    image: ashevchenko64/diploma:v0.1.0
+    image: ashevchenko64/diploma
     depends_on:
       db:
         condition: service_healthy
     env_file:
       - .env
     command: >
-      sh -c "python .\manage.py migrate"
+      sh -c "python manage.py migrate"
   db:
     image: postgres:15.1-alpine
     restart: on-failure
@@ -45,7 +45,7 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     ports:
-      - "5433:5432"
+      - "5432:5432"
     healthcheck:
       test: pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}
       interval: 3s

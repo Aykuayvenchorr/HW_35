@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password
 
 USER_MODEL = get_user_model()
 
+
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     password_repeat = serializers.CharField(write_only=True)
@@ -44,8 +45,8 @@ class LoginSerializer(serializers.ModelSerializer):
             raise exceptions.AuthenticationFailed
         return user
 
-class ProfileSerializer(serializers.ModelSerializer):
 
+class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = USER_MODEL
         fields = ['id', 'username', 'first_name', 'last_name', 'email']
@@ -67,3 +68,7 @@ class UpdatePasswordSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = USER_MODEL
+        fields = ('id', 'username', 'first_name', 'last_name', 'email')

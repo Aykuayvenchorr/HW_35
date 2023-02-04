@@ -49,6 +49,7 @@ class GoalCategoryView(RetrieveUpdateDestroyAPIView):
         instance.save()
         return instance
 
+
 class GoalCreateView(CreateAPIView):
     model = Goal
     permission_classes = [permissions.IsAuthenticated]
@@ -75,6 +76,7 @@ class GoalListView(ListAPIView):
             user=self.request.user.exclude(status=Goal.Status.archived)
         )
 
+
 class GoalView(RetrieveUpdateDestroyAPIView):
     model = Goal
     serializer_class = GoalSerializer
@@ -87,6 +89,7 @@ class GoalView(RetrieveUpdateDestroyAPIView):
         instance.status = Goal.Status.archived
         instance.save()
         return instance
+
 
 class GoalCommentCreateView(CreateAPIView):
     model = GoalComment
@@ -113,6 +116,7 @@ class GoalCommentListView(ListAPIView):
             user=self.request.user
         )
 
+
 class GoalCommentView(RetrieveUpdateDestroyAPIView):
     model = GoalComment
     serializer_class = GoalCommentSerializer
@@ -120,4 +124,3 @@ class GoalCommentView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return GoalComment.objects.filter(user=self.request.user)
-

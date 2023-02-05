@@ -17,11 +17,11 @@ class GoalCategory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # def save(self, *args, **kwargs):
-    #     if not self.id:  # Когда объект только создается, у него еще нет id
-    #         self.created = timezone.now()  # проставляем дату создания
-    #     self.updated = timezone.now()  # проставляем дату обновления
-    #     return super().save(*args, **kwargs)
+    def save(self, *args, **kwargs):
+        if not self.id:  # Когда объект только создается, у него еще нет id
+            self.created = timezone.now()  # проставляем дату создания
+        self.updated = timezone.now()  # проставляем дату обновления
+        return super().save(*args, **kwargs)
 
 
 class Goal(models.Model):
@@ -54,6 +54,12 @@ class Goal(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def save(self, *args, **kwargs):
+        if not self.id:  # Когда объект только создается, у него еще нет id
+            self.created = timezone.now()  # проставляем дату создания
+        self.updated = timezone.now()  # проставляем дату обновления
+        return super().save(*args, **kwargs)
+
 
 class GoalComment(models.Model):
     class Meta:
@@ -66,3 +72,9 @@ class GoalComment(models.Model):
 
     created = models.DateTimeField(verbose_name="Дата создания")
     updated = models.DateTimeField(verbose_name="Дата последнего обновления")
+
+    def save(self, *args, **kwargs):
+        if not self.id:  # Когда объект только создается, у него еще нет id
+            self.created = timezone.now()  # проставляем дату создания
+        self.updated = timezone.now()  # проставляем дату обновления
+        return super().save(*args, **kwargs)

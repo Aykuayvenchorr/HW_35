@@ -1,18 +1,13 @@
-import datetime
-
 import pytest
 from django.urls import reverse
 from rest_framework import status
-
-from goals.serializers import GoalSerializer
 
 test_date = str(datetime.datetime.now().date())
 
 
 @pytest.mark.django_db
-def test_goal_create(auth_client, goal_category):
-    url = reverse('goal_create')
-
+def test_goal_update(auth_client, goal, test_user, goal_category):
+    url = reverse('goal', kwargs={'pk': goal.id})
     expected_response = {
             'title': 'test',
             'category': goal_category.pk,
@@ -21,28 +16,17 @@ def test_goal_create(auth_client, goal_category):
             'status': 1,
             'priority': 1
         }
-    response = auth_client.post(
-        path=url,
-        data=expected_response
-    )
+    response = auth_client.patch(path=url, data=expected_response)
     response_data = response.json()
 
-    assert response.status_code == status.HTTP_201_CREATED
+    assert response.status_code == status.HTTP_200_OK
+    assert response_data['user']['id'] == test_user.pk
+    assert response_data['user']['username'] == test_user.username
+    assert response_data['user']['email'] == test_user.email
+
     assert response_data['title'] == expected_response['title']
     assert response_data['category'] == expected_response['category']
     assert response_data['due_date'] == expected_response['due_date']
     assert response_data['description'] == expected_response['description']
     assert response_data['status'] == expected_response['status']
     assert response_data['priority'] == expected_response['priority']
-
-
-@pytest.mark.django_db
-def test_goal_list(auth_client, goal_list):
-    url = reverse('goal_list')
-
-    response = auth_client.get(path=url)
-    expected_response = GoalSerializer(goal_list, many=True).data
-
-    assert response.status_code == status.HTTP_200_OK
-    assert response.data == expected_response
-

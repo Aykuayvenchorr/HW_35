@@ -31,6 +31,7 @@ class GoalCategoryFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = GoalCategory
 
+
     board = factory.SubFactory(BoardFactory)
     title = factory.Faker("test")
     user = factory.SubFactory(UserFactory)
@@ -41,7 +42,7 @@ class GoalFactory(factory.django.DjangoModelFactory):
         model = Goal
 
     title = 'test'
-    category = factory.SubFactory(CategoryFactory)
+    category = factory.SubFactory(GoalCategoryFactory)
     user = factory.SubFactory(UserFactory)
 
 

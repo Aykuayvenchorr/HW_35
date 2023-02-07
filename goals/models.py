@@ -33,6 +33,7 @@ class BoardParticipant(DatesModelMixin):
         verbose_name = "Участник"
         verbose_name_plural = "Участники"
 
+
     class Role(models.IntegerChoices):
         owner = 1, "Владелец"
         writer = 2, "Редактор"
@@ -53,6 +54,9 @@ class BoardParticipant(DatesModelMixin):
     role = models.PositiveSmallIntegerField(
         verbose_name="Роль", choices=Role.choices, default=Role.owner
     )
+
+    editable_choices = Role.choices
+    editable_choices.pop(0)
 
 
 class GoalCategory(models.Model):

@@ -165,5 +165,5 @@ class BoardListView(ListAPIView):
 class BoardCreateView(CreateAPIView):
     model = Board
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = BoardSerializer
+    serializer_class = BoardCreateSerializer
 

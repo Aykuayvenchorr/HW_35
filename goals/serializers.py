@@ -1,3 +1,4 @@
+from django.db import transaction
 from rest_framework import serializers
 
 from core.serializers import UserSerializer
@@ -88,7 +89,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        read_only_fields = ("id", "created", "updated")
+        read_only_fields = ("id", "created", "updated", 'is_deleted')
         fields = "__all__"
 
     def create(self, validated_data):

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+
 from django.contrib.auth import get_user_model, login, logout
 
 from rest_framework import generics, permissions, status

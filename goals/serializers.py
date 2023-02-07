@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from core.serializers import UserSerializer
 from goals.models import GoalCategory, GoalComment, Goal, Board, BoardParticipant
+from core.models import User
 
 
 class GoalCategorySerializer(serializers.ModelSerializer):

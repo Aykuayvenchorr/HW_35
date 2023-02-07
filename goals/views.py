@@ -6,9 +6,9 @@ from rest_framework import permissions, filters
 from rest_framework.pagination import LimitOffsetPagination
 
 from goals.filters import GoalDateFilter
-from goals.models import GoalCategory, Goal, GoalComment
+from goals.models import GoalCategory, Goal, GoalComment, Board, BoardParticipant
 from goals.serializers import GoalCategorySerializer, GoalCategoryCreateSerializer, GoalCreateSerializer, GoalSerializer, GoalCommentSerializer, \
-    GoalCommentCreateSerializer
+    GoalCommentCreateSerializer, BoardListSerializer, BoardSerializer
 
 
 class GoalCategoryCreateView(CreateAPIView):

@@ -8,7 +8,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from goals.filters import GoalDateFilter
 from goals.models import GoalCategory, Goal, GoalComment, Board, BoardParticipant
 from goals.serializers import GoalCategorySerializer, GoalCategoryCreateSerializer, GoalCreateSerializer, GoalSerializer, GoalCommentSerializer, \
-    GoalCommentCreateSerializer, BoardListSerializer, BoardSerializer
+    GoalCommentCreateSerializer, BoardListSerializer, BoardSerializer, BoardCreateSerializer
 from goals.permissions import BoardPermissions, GoalCategoryPermissions, GoalPermissions, CommentPermissions
 
 

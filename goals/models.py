@@ -8,14 +8,17 @@ class DatesModelMixin(models.Model):
     class Meta:
         abstract = True  # Помечаем класс как абстрактный – для него не будет таблички в БД
 
-    created = models.DateTimeField(verbose_name="Дата создания")
-    updated = models.DateTimeField(verbose_name="Дата последнего обновления")
+    # created = models.DateTimeField(verbose_name="Дата создания")
+    # updated = models.DateTimeField(verbose_name="Дата последнего обновления")
 
-    def save(self, *args, **kwargs):
-        if not self.id:  # Когда модель только создается – у нее нет id
-            self.created = timezone.now()
-        self.updated = timezone.now()  # Каждый раз, когда вызывается save, проставляем свежую дату обновления
-        return super().save(*args, **kwargs)
+    created = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
+    updated = models.DateTimeField(auto_now=True, verbose_name="Дата последнего обновления")
+
+    # def save(self, *args, **kwargs):
+    #     if not self.id:  # Когда модель только создается – у нее нет id
+    #         self.created = timezone.now()
+    #     self.updated = timezone.now()  # Каждый раз, когда вызывается save, проставляем свежую дату обновления
+    #     return super().save(*args, **kwargs)
     
     
 class Board(DatesModelMixin):
@@ -59,7 +62,7 @@ class BoardParticipant(DatesModelMixin):
     editable_choices.pop(0)
 
 
-class GoalCategory(models.Model):
+class GoalCategory(DatesModelMixin):
     class Meta:
         verbose_name = "Категория"
         verbose_name_plural = "Категории"
@@ -67,23 +70,13 @@ class GoalCategory(models.Model):
     title = models.CharField(verbose_name="Название", max_length=255)
     user = models.ForeignKey('core.User', verbose_name="Автор", on_delete=models.PROTECT)
     is_deleted = models.BooleanField(verbose_name="Удалена", default=False)
-    created = models.DateTimeField(verbose_name="Дата создания")
-    updated = models.DateTimeField(verbose_name="Дата последнего обновления")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     board = models.ForeignKey(
         Board, verbose_name="Доска", on_delete=models.PROTECT, related_name="categories", null=True
     )
 
-    def save(self, *args, **kwargs):
-        if not self.id:  # Когда объект только создается, у него еще нет id
-            self.created = timezone.now()  # проставляем дату создания
-        self.updated = timezone.now()  # проставляем дату обновления
-        return super().save(*args, **kwargs)
 
-
-class Goal(models.Model):
+class Goal(DatesModelMixin):
     class Status(models.IntegerChoices):
         to_do = 1, "К выполнению"
         in_progress = 2, "В процессе"
@@ -108,19 +101,9 @@ class Goal(models.Model):
     title = models.CharField(verbose_name="Название", max_length=255)
     description = models.TextField(verbose_name="Описание")
     due_date = models.DateField(verbose_name="Дата выполнения")
-    created = models.DateTimeField(verbose_name="Дата создания")
-    updated = models.DateTimeField(verbose_name="Дата последнего обновления")
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def save(self, *args, **kwargs):
-        if not self.id:  # Когда объект только создается, у него еще нет id
-            self.created = timezone.now()  # проставляем дату создания
-        self.updated = timezone.now()  # проставляем дату обновления
-        return super().save(*args, **kwargs)
 
 
-class GoalComment(models.Model):
+class GoalComment(DatesModelMixin):
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
@@ -128,15 +111,4 @@ class GoalComment(models.Model):
     user = models.ForeignKey('core.User', verbose_name="Пользователь", related_name="comments", on_delete=models.PROTECT)
     goal = models.ForeignKey(Goal, verbose_name="Цель", related_name="comments", on_delete=models.PROTECT)
     text = models.TextField(verbose_name="Текст")
-
-    created = models.DateTimeField(verbose_name="Дата создания")
-    updated = models.DateTimeField(verbose_name="Дата последнего обновления")
-
-    def save(self, *args, **kwargs):
-        if not self.id:  # Когда объект только создается, у него еще нет id
-            self.created = timezone.now()  # проставляем дату создания
-        self.updated = timezone.now()  # проставляем дату обновления
-        return super().save(*args, **kwargs)
-
-
 

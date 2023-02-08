@@ -153,6 +153,7 @@ class BoardListView(ListAPIView):
     model = Board
     permission_classes = [permissions.IsAuthenticated, BoardPermissions]
     serializer_class = BoardListSerializer
+    pagination_class = LimitOffsetPagination
     filter_backends = [filters.OrderingFilter]
     ordering = ["title"]
 

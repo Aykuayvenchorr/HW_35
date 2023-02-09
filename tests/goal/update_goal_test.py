@@ -7,27 +7,42 @@ test_date = str(datetime.datetime.now().date())
 
 
 @pytest.mark.django_db
-def test_goal_update(auth_client, goal, test_user, goal_category):
+def test_goal_update(user_factory, auth_client, board_participant_factory, goal_factory):
+    user = user_factory()
+    board_participant = board_participant_factory(user=user)
+    goal = goal_factory(
+        category__board=board_participant.board, category__user=user, user=user
+    )
+
+    data = {
+        'category': goal.category_id,
+        'title': 'test goal!',
+        'description': 'desc',
+        'due_date': "2023-02-08"
+    }
+
+    get_auth_client = auth_client(user)
     url = reverse('goal', kwargs={'pk': goal.id})
+    response = get_auth_client.put(path=url, data=data)
+
     expected_response = {
-            'title': 'test',
-            'category': goal_category.pk,
-            'due_date': test_date,
-            'description': 'test',
-            'status': 1,
-            'priority': 1
-        }
-    response = auth_client.patch(path=url, data=expected_response)
-    response_data = response.json()
+        'id': goal.id,
+        'title': 'test goal!',
+        'category': goal.category_id,
+        'description': 'desc',
+        'due_date': "2023-02-08",
+        'status': 1,
+        'priority': 2,
+        'created': goal.created.strftime('%Y-%m-%dT%H:%M:%S.%fZ'),
+        'updated': response.data['updated'],
+        'user': {
+            'id': user.id,
+            'username': user.username,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email': user.email,
+        },
+    }
 
-    assert response.status_code == status.HTTP_200_OK
-    assert response_data['user']['id'] == test_user.pk
-    assert response_data['user']['username'] == test_user.username
-    assert response_data['user']['email'] == test_user.email
-
-    assert response_data['title'] == expected_response['title']
-    assert response_data['category'] == expected_response['category']
-    assert response_data['due_date'] == expected_response['due_date']
-    assert response_data['description'] == expected_response['description']
-    assert response_data['status'] == expected_response['status']
-    assert response_data['priority'] == expected_response['priority']
+    # assert response.status_code == 200
+    assert response.data == expected_response
